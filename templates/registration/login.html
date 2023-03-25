@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load bootstrap %}
+{% block title %}Logowanie{% endblock title %}
+{% block content %}
+    <div class="card" style="max-width: 500px; left: 35%;">
+        <div class="card-header" style="font-weight: bold">Logowanie</div>
+        <div class="card-body">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ authenticationForm|bootstrap }}
+                <button style="margin-top: 1%; border-radius: 5px; color: white" class="btn btn-success"
+                        type="submit">
+                    Zaloguj
+                </button>
+                <p class="card-text" style="margin-top: 10px">
+                    Nie masz konta?
+                    <a href="{% url 'register' %}" class="btn btn-info" style="color: white">Rejestracja</a>
+                    {#                    <a href="{% url 'password_reset' %}" class="btn btn-info">Zapomniałeś hasła?</a>#}
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

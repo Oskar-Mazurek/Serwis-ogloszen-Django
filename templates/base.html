@@ -28,12 +28,43 @@
             </li>
         </ul>
         <div class="input-group">
-            <input type="search"  class="form-control " placeholder="Search" aria-label="Search"
+            <input type="search" class="form-control " placeholder="Search" aria-label="Search"
                    aria-describedby="search-addon"/>
             <button type="button" class="btn  btn-primary">search</button>
         </div>
+        {% if not user.is_authenticated %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="btn btn-primary" style="margin-left: 1px" href="{% url 'login' %}">Logowanie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" style="margin-right: 1px; margin-left: 1px" href="{% url 'register' %}">Rejestracja</a>
+                </li>
+            </ul>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav mr-auto">
+                <li class="btn btn-info" style="margin-left: 1px; color: white">
+                    Zalogowano&nbsp;jako&nbsp;{{ user.username }}</li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" style="margin-left: 1px" href="{% url 'profile' %}">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" style="margin-right: 1px; margin-left: 1px" href="{% url 'logout' %}">Wyloguj</a>
+                </li>
+            </ul>
+        {% endif %}
     </div>
 </nav>
+<aside style="float: right">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</aside>
 {% block content %}{% endblock content %}
 </body>
 </html>
