@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load bootstrap %}
+{% block title %}Twój profil{% endblock title %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm" style="background-color: lightblue; border-style: solid;
+            border-color: lightblue;
+            border-bottom-left-radius: 15px;  border-top-left-radius: 15px;
+            border-right-color: white; border-right-width: medium; ">
+                <h2 style="color: white; border-bottom: white solid">Twoje ogłoszenia</h2>
+                {% for userAd in userAds %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ userAd.adName }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ userAd.publicationDate }}
+                                <br>Wygaśnie: {{ userAd.expirationDate }}</h6>
+                            <p class="card-text">{{ userAd.description }}<br>Cena: {{ userAd.cost }}zł</p>
+                            <a href="#" class="btn btn-warning">Edytuj</a>
+                            <a href="#" class="btn btn-danger">Usuń</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-sm" style="background-color: lightblue; border-style: solid;
+             border-color: lightblue; border-right-color: white; border-right-width: medium;">
+                <h2 style="color: white; border-bottom: white solid">Twoje opcje</h2>
+                <a href="{% url 'addAd' %}" class="btn btn-success">Dodaj nowe ogłoszenie</a><br>
+                {% if user.customer.userType == 'ADM' %}
+                    <a id="a" href="{% url 'admin:index' %}">
+                        <button class="btn btn-warning" style="color: white; margin-top: 5px">
+                            Panel administratora
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-sm" style="background-color: lightblue; border-style: solid;
+            border-bottom-right-radius: 15px; border-color: lightblue; border-top-right-radius: 15px;">
+                <h2 style="color: white; border-bottom: white solid">Twoje dane</h2>
+                <table class="table " style="border-radius: 15px; background-color: white">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Nazwa&nbsp;użytkownika</th>
+                        <td>{{ customer.user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Imię i nazwisko</th>
+                        <td>{{ customer.name }}&nbsp;{{ customer.surName }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Typ użytkownika</th>
+                        <td>{{ customer.displayUserType }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Numer telefonu</th>
+                        <td>{{ customer.telNum }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Adres</th>
+                        <td>{{ customer.street }}&nbsp;{{ customer.zipCode }}&nbsp;{{ customer.city }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Adres Email</th>
+                        <td>{{ customer.user.email }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

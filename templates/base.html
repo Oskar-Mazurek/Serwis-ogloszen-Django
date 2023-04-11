@@ -13,24 +13,27 @@
 </head>
 <body>
 <nav style="padding-left: 20px; background-color: #e3f2fd;" class="navbar navbar-expand-lg navbar-light sticky-top">
-    <a class="navbar-brand" href="{% url 'showAllAds' %}">Serwis ogłoszeń</a>
+    <a class="navbar-brand">Serwis ogłoszeń</a>
 
     <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'showAllAds' %}">Home <span class="sr-only"></span></a>
+                <a class="btn btn-primary" href="{% url 'showAllAds' %}">Strona&nbsp;główna<span class="sr-only"></span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="btn btn-primary"
+                       style="margin-left: 1px; pointer-events: none;margin-right: 1px;">Zalogowano&nbsp;jako&nbsp;{{ user.username }}</a>
+                </li>
+            {% endif %}
+            {#            <li class="nav-item">#}
+            {#                <a class="nav-link disabled" href="#">Disabled</a>#}
+            {#            </li>#}
         </ul>
         <div class="input-group">
-            <input type="search" class="form-control " placeholder="Search" aria-label="Search"
+            <input type="search" class="form-control " placeholder="Wyszukaj ogłoszenie" aria-label="Search"
                    aria-describedby="search-addon"/>
-            <button type="button" class="btn  btn-primary">search</button>
+            <button type="button" class="btn  btn-primary">Wyszukaj</button>
         </div>
         {% if not user.is_authenticated %}
             <ul class="navbar-nav mr-auto">
@@ -44,8 +47,6 @@
         {% endif %}
         {% if user.is_authenticated %}
             <ul class="navbar-nav mr-auto">
-                <li class="btn btn-info" style="margin-left: 1px; color: white">
-                    Zalogowano&nbsp;jako&nbsp;{{ user.username }}</li>
                 <li class="nav-item">
                     <a class="btn btn-primary" style="margin-left: 1px" href="{% url 'profile' %}">Profil</a>
                 </li>

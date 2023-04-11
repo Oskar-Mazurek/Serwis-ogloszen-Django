@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load bootstrap %}
+{% block title %}Dodanie nowego ogłoszenia{% endblock title %}
+{% block content %}
+    <div class="card" style="max-width: 500px; left: 35%;">
+        <div class="card-header" style="font-weight: bold">Dodanie nowego ogłoszenia</div>
+        <div class="card-body">
+            <form method="post" action="{% url 'addAd' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ formAd|bootstrap }}
+                Zdjecia:
+                <input type="file" name="images" multiple style="margin-top: 5px"><br>
+                <button type="submit" style="margin-top: 5px; color: white" class="btn btn-success"
+                >Zapisz ogłoszenie
+                </button>
+                <p class="card-text" style="margin-top: 5px">
+                    <a href="{% url 'profile' %}" class="btn btn-danger" style="color: white">Anuluj</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

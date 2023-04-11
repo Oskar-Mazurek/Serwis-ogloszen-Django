@@ -3,23 +3,34 @@
 {% block title %}Wszystkie ogłoszenia{% endblock title %}
 {% block content %}
     <div class="row" style="margin: 10px;">
-    <div class="card" style="width: 18rem; margin: 10px;">
-        <img class="card-img-top" style="width: 286px; height: 180px;" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem; margin: 10px;">
-        <img class="card-img-top" style="width: 286px; height: 180px;" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>
+        {% for Ad in AllAds %}
+            <div class="card" style="width: 18rem; margin: 10px;">
+                {% for img in images %}
+                    {% if img.ad == Ad %}
+                        <img class="card-img-top" style="width: 260px; height: 180px; margin-top: 5px"
+                             src="/media/{{ img.image }}" alt="Brak zdjęcia">
+                    {% endif %}
+                {% endfor %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ Ad.adName }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ Ad.publicationDate }}
+                        <br>Wygaśnie: {{ Ad.expirationDate }}</h6>
+                    <p class="card-text">{{ Ad.description }}
+                    <table class="table" style="margin-left: -29px; border-top: lightgray solid 1px">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Cena</th>
+                            <td>{{ Ad.cost }}zł</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Dane kontaktowe:</th>
+                            <td>{{ Ad.customer.user.email }} {{ Ad.customer.telNum }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" class="btn btn-primary">Przejdź do ogłoszenia</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}

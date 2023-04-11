@@ -5,9 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CustomerForm
+from .forms import CustomerForm, AdForm
 from .models import *
 
 
@@ -16,9 +16,9 @@ from .models import *
 # strona główna
 def showAllAds(request):
     today = date.today()
-    AllAds = Ad.objects.all().order_by('publicationDate')
-
-    return render(request, 'showAllAds.html', {'AllAds': AllAds})
+    AllAds = Ad.objects.filter(expirationDate__gte=today).order_by('expirationDate')
+    images = AdImage.objects.all()
+    return render(request, 'showAllAds.html', {'AllAds': AllAds, 'images': images})
 
 
 # logowanie
@@ -82,5 +82,31 @@ def logoutUser(request):
     return redirect('showAllAds')
 
 
+@login_required
 def profile(request):
-    return None
+    user = get_object_or_404(User, pk=request.user.id)
+    customer = get_object_or_404(Customer, user=user)
+    today = date.today()
+    userAds = Ad.objects.filter(customer=customer, expirationDate__gte=today).order_by('expirationDate')
+    return render(request, "profile.html", {'userAds': userAds, 'customer': customer})
+
+
+@login_required
+def addAd(request):
+    if request.method == 'GET':
+        formAd = AdForm(request.POST or None)
+        return render(request, "AdForm.html", {'formAd': formAd, })
+    if request.method == 'POST':
+        today = date.today()
+        user = get_object_or_404(User, pk=request.user.id)
+        customer = get_object_or_404(Customer, user=user)
+        ad = Ad.objects.create(customer=customer, adName=request.POST['adName'],
+                               description=request.POST['description'],
+                               cost=request.POST['cost'], publicationDate=today,
+                               expirationDate=today + timedelta(days=14))
+        images = request.FILES.getlist('images')
+        for image in images:
+            AdImage.objects.create(ad=ad, image=image).save()
+        ad.save()
+        messages.success(request, 'Dodano ogłoszenie!')
+    return redirect('profile')

@@ -19,3 +19,12 @@ class CustomerForm(ModelForm):
             'zipCode': 'Kod pocztowy'
         }
         prefix = 'customerForm'
+
+
+class AdForm(ModelForm):
+    class Meta:
+        model = Ad
+        exclude = ('customer', 'publicationDate', 'expirationDate')
+        labels = {'adName': 'Tytuł ogłoszenia', 'description': 'Opis'}
+
+
