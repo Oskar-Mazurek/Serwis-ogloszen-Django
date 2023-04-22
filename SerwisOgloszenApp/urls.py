@@ -11,4 +11,7 @@ urlpatterns = [
                   path('logout/', views.logoutUser, name='logout'),
                   path('profil/', views.profile, name='profile'),
                   path('addAd/', views.addAd, name='addAd'),
+                  path('editAd/<int:id>', views.editAd, name='editAd'),
+                  path('deleteAd/<int:id>', views.deleteAd, name='deleteAd'),
+                  path('adDetails/<int:id>', views.adDetails, name='adDetails'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

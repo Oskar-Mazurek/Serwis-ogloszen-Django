@@ -28,3 +28,8 @@ class AdForm(ModelForm):
         labels = {'adName': 'Tytuł ogłoszenia', 'description': 'Opis'}
 
 
+class AdEditForm(ModelForm):
+    class Meta:
+        model = Ad
+        exclude = ('customer', 'publicationDate', 'expirationDate', '')
+        labels = {'adName': 'Tytuł ogłoszenia', 'description': 'Opis'}

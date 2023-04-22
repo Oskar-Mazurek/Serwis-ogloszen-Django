@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Ogłoszenie - {{ ad.adName }}{% endblock title %}
+
+{% block content %}
+    <div class="jumbotron" style="border: lightgray solid 1px; border-radius: 5px; margin: 0 5px 0 5px">
+        <h1 class="display-4">{{ ad.adName }}</h1>
+        {#        karuzela zdjęć#}
+        {% for img in images %}
+            {% if img.ad == ad %}
+                <img class="card-img-top" style="width: 260px; height: 180px; margin-top: 5px"
+                     src="/media/{{ img.image }}" alt="Brak zdjęcia">
+            {% endif %}
+        {% endfor %}
+        <p class="lead">Opublikowano: {{ ad.publicationDate }}
+            <br>Wygaśnie: {{ ad.expirationDate }}
+        <table class="table" style="border-top: lightgray solid 1px">
+            <tbody>
+            <tr>
+                <th scope="row">Cena</th>
+                <td>{{ ad.cost }}zł</td>
+            </tr>
+            <tr>
+                <th scope="row">Dane kontaktowe:</th>
+                <td>Email: {{ ad.customer.user.email }} Numer telefonu:{{ ad.customer.telNum }}</td>
+            </tr>
+            </tbody>
+        </table>
+        </p>
+        <hr class="my-4">
+        <p>Opis<br>{{ ad.description }}</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            <a href="{% url 'showAllAds' %}" class="btn btn-primary btn-lg" role="button">Powrót</a>
+        </p>
+    </div>
+{% endblock content %}

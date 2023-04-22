@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CustomerForm, AdForm
+from .forms import CustomerForm, AdForm, AdEditForm
 from .models import *
 
 
@@ -15,7 +15,7 @@ from .models import *
 
 # strona główna
 def showAllAds(request):
-    today = date.today()
+    today = datetime.now()
     AllAds = Ad.objects.filter(expirationDate__gte=today).order_by('expirationDate')
     images = AdImage.objects.all()
     return render(request, 'showAllAds.html', {'AllAds': AllAds, 'images': images})
@@ -97,7 +97,7 @@ def addAd(request):
         formAd = AdForm(request.POST or None)
         return render(request, "AdForm.html", {'formAd': formAd, })
     if request.method == 'POST':
-        today = date.today()
+        today = datetime.now()
         user = get_object_or_404(User, pk=request.user.id)
         customer = get_object_or_404(Customer, user=user)
         ad = Ad.objects.create(customer=customer, adName=request.POST['adName'],
@@ -110,3 +110,31 @@ def addAd(request):
         ad.save()
         messages.success(request, 'Dodano ogłoszenie!')
     return redirect('profile')
+
+
+def editAd(request, id):
+    ad = get_object_or_404(Ad, pk=id)
+    editAdForm = AdEditForm(request.POST or None, request.FILES or None, instance=ad)
+
+    if editAdForm.is_valid():
+        editAdForm.save()
+        messages.success(request, 'Edycja ogłoszenia udana!')
+        return redirect('profile')
+
+    return render(request, 'editAd.html', {'editAdForm': editAdForm, 'ad': ad})
+
+
+def deleteAd(request, id):
+    ad = get_object_or_404(Ad, pk=id)
+    if request.method == "POST":
+        ad.delete()
+        messages.error(request, 'Usunięto ogłoszenie!')
+        return redirect('profile')
+
+    return render(request, 'deleteAdConfirm.html', {'ad': ad})
+
+
+def adDetails(request, id):
+    ad = get_object_or_404(Ad, pk=id)
+    images = AdImage.objects.all()
+    return render(request, 'adDetails.html', {'ad': ad, 'images': images})

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Edycja ogłoszenia{% endblock title %}
+
+{% block content %}
+    <div class="card" style="max-width: 500px; left: 35%;">
+        <div class="card-header" style="font-weight: bold">Edycja ogłoszenia nr: {{ ad.pk }}</div>
+        <div class="card-body">
+            <form method="post" action="{% url 'editAd' ad.pk %}">
+                {% csrf_token %}
+                {{ editAdForm|bootstrap }}
+                <button type="submit" style="margin-top: 5px; color: white" class="btn btn-success"
+                >Zapisz zmianę
+                </button>
+                <p class="card-text" style="margin-top: 5px">
+                    <a href="{% url 'profile' %}" class="btn btn-danger" style="color: white">Anuluj</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
