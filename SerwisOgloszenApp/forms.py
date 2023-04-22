@@ -24,12 +24,12 @@ class CustomerForm(ModelForm):
 class AdForm(ModelForm):
     class Meta:
         model = Ad
-        exclude = ('customer', 'publicationDate', 'expirationDate')
+        exclude = ('customer', 'publicationDate', 'expirationDate', 'taken')
         labels = {'adName': 'Tytuł ogłoszenia', 'description': 'Opis'}
 
 
 class AdEditForm(ModelForm):
     class Meta:
         model = Ad
-        exclude = ('customer', 'publicationDate', 'expirationDate', '')
+        exclude = ('customer', 'publicationDate', 'expirationDate', 'taken')
         labels = {'adName': 'Tytuł ogłoszenia', 'description': 'Opis'}

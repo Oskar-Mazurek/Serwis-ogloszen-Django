@@ -14,10 +14,12 @@
                 {% for userAd in userAds %}
                     <div class="card" style="width: 22rem;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ userAd.adName }}</h5>
+                            <h5 class="card-title"
+                                style="border-bottom: lightblue solid 2px; font-weight: bold">{{ userAd.adName }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ userAd.publicationDate }}
                                 <br>Wygaśnie: {{ userAd.expirationDate }}</h6>
-                            <p class="card-text">{{ userAd.description }}<br>Cena: {{ userAd.cost }}zł</p>
+                            <p class="card-text" style="text-align: justify;">{{ userAd.description }}</p>
+                            <p class="card-text">Cena: {{ userAd.cost }}zł</p>
                             <div class="btn-group" role="group">
                                 <a href="{% url 'editAd' userAd.pk %}" class="btn btn-warning"
                                    style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;">Edytuj</a>
@@ -34,19 +36,32 @@
             <div class="col-sm" style="background-color: lightblue; border-style: solid;
              border-color: lightblue; border-right-color: white; border-right-width: medium;">
                 <h2 style="color: white; border-bottom: white solid">Twoje opcje</h2>
-                <a href="{% url 'addAd' %}" class="btn btn-success">Dodaj nowe ogłoszenie</a><br>
+                <a href="{% url 'addAd' %}" class="btn btn-success"
+                   style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;">Dodaj nowe
+                    ogłoszenie</a><br>
                 {% if user.customer.userType == 'ADM' %}
                     <a id="a" href="{% url 'admin:index' %}">
-                        <button class="btn btn-warning" style="color: white; margin-top: 5px">
+                        <button class="btn btn-info"
+                                style="color: white; margin-top: 5px; font-weight: bold; -webkit-text-stroke: 0.1px black;">
                             Panel administratora
                         </button>
                     </a>
                 {% endif %}
+                <h2 style="color: white; border-bottom: white solid">Twoje rezerwacje</h2>
+                <div class="card bg-light mb-3" style="">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                    </div>
+                </div>
             </div>
             <div class="col-sm" style="background-color: lightblue; border-style: solid;
             border-bottom-right-radius: 15px; border-color: lightblue; border-top-right-radius: 15px;">
                 <h2 style="color: white; border-bottom: white solid">Twoje dane</h2>
-                <table class="table " style="border-radius: 15px; background-color: white">
+                <table class="table"
+                       style="border-radius: 15px; background-color: white; border-bottom-color: lightblue; border-top-color: lightblue">
                     <tbody>
                     <tr>
                         <th scope="row">Nazwa&nbsp;użytkownika</th>
@@ -66,7 +81,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Adres</th>
-                        <td>{{ customer.street }}&nbsp;{{ customer.zipCode }}&nbsp;{{ customer.city }}</td>
+                        <td>{{ customer.street }}&nbsp;{{ customer.zipCode }}&nbsp;{{ customer.city }}, {{ customer.state }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Adres Email</th>

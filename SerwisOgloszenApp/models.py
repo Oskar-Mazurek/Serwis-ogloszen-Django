@@ -15,6 +15,7 @@ class Customer(models.Model):
     street = models.CharField(max_length=40)
     city = models.CharField(max_length=40)
     zipCode = models.CharField(max_length=6)
+    state = models.CharField(max_length=20)
 
     def displayUserType(self):
         if self.userType == 'ADM':
@@ -36,6 +37,7 @@ class Ad(models.Model):
     cost = models.FloatField(verbose_name='Cena', null=False, blank=False)
     publicationDate = models.DateTimeField()
     expirationDate = models.DateTimeField()
+    taken = models.BooleanField(default=False)
 
     def __str__(self):
         return "ID:" + str(self.pk) + \
