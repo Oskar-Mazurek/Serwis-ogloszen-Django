@@ -34,9 +34,17 @@
             {#            </li>#}
         </ul>
         <div class="input-group">
-            <input type="search" class="form-control " placeholder="Wyszukaj ogłoszenie" aria-label="Search"
-                   aria-describedby="search-addon"/>
-            <button type="button" class="btn  btn-primary">Wyszukaj</button>
+            <form class="form-inline" style="position: absolute; right: 0; top: -19px;" method="POST"
+                  action="{% url 'search' %}">
+                {% csrf_token %}
+                <input type="search" class="form-control input-search"
+                       style="border-bottom-right-radius: 0; border-top-right-radius: 0;"
+                       placeholder="Wyszukaj ogłoszenie" aria-label="Search"
+                       aria-describedby="search-addon" name="searched"/>
+                <button type="submit" class="btn btn-primary"
+                        style="border-bottom-left-radius: 0; border-top-left-radius: 0;">Wyszukaj
+                </button>
+            </form>
         </div>
         {% if not user.is_authenticated %}
             <ul class="navbar-nav mr-auto">

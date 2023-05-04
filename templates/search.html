@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block title %}Wyniki wyszukiwania{% endblock title %}
+{% block content %}
+    <div class="p-2 text-center bg-light">
+        {% if searched %}
+            <h1 class="mb-3" >Wyniki wyszukiwania dla: {{ searched }}</h1>
+        {% else %}
+            <h1 class="mb-3">Nie wpisałeś frazy do wyszukania ;)</h1>
+        {% endif %}
+    </div>
+    {% if searched %}
+        <div class="row" style="margin: 10px;">
+            {% for Ad in results %}
+                <div class="card" style="width: 18rem; margin: 10px;">
+                    {% for img in images %}
+                        {% if img.ad == Ad %}
+                            <img class="card-img" style="width: 260px; height: 180px; margin-top: 5px"
+                                 src="/media/{{ img.image }}" alt="Brak zdjęcia">
+                        {% endif %}
+                    {% endfor %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ Ad.adName }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ Ad.publicationDate }}
+                            <br>Wygaśnie: {{ Ad.expirationDate }}</h6>
+                        <p id="description" class="card-text"
+                           style="overflow: hidden;">{{ Ad.description }}
+                        <table class="table"
+                               style="margin-left: -29px; border-top: lightgray solid 1px; min-width: 288px">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Cena</th>
+                                <td>{{ Ad.cost }}zł</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Lokalizacja</th>
+                                <td>{{ Ad.customer.city }}, {{ Ad.customer.state }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="{% url 'adDetails' Ad.pk %}" class="btn btn-primary">Przejdź do ogłoszenia</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>{% endif %}
+{% endblock content %}

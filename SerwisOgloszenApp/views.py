@@ -16,7 +16,7 @@ from .models import *
 # strona główna
 def showAllAds(request):
     today = datetime.now()
-    AllAds = Ad.objects.filter(expirationDate__gte=today).order_by('expirationDate')
+    AllAds = Ad.objects.filter(expirationDate__gte=today, taken=False).order_by('expirationDate')
     images = AdImage.objects.all()
     return render(request, 'showAllAds.html', {'AllAds': AllAds, 'images': images})
 
@@ -87,8 +87,10 @@ def profile(request):
     user = get_object_or_404(User, pk=request.user.id)
     customer = get_object_or_404(Customer, user=user)
     today = date.today()
-    userAds = Ad.objects.filter(customer=customer, expirationDate__gte=today).order_by('expirationDate')
-    return render(request, "profile.html", {'userAds': userAds, 'customer': customer})
+    userAds = Ad.objects.filter(customer=customer, expirationDate__gte=today).order_by('-taken', 'expirationDate')
+    reservedAds = Ad.objects.filter(reserver=customer, expirationDate__gte=today).order_by('expirationDate')
+    return render(request, "profile.html",
+                  {'userAds': userAds, 'customer': customer, 'reservedAds': reservedAds})
 
 
 @login_required
@@ -138,3 +140,42 @@ def adDetails(request, id):
     ad = get_object_or_404(Ad, pk=id)
     images = AdImage.objects.all()
     return render(request, 'adDetails.html', {'ad': ad, 'images': images})
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        today = datetime.now()
+        results = Ad.objects.filter(adName__contains=searched, expirationDate__gte=today, taken=False).order_by(
+            'expirationDate')
+        images = AdImage.objects.all()
+        return render(request, 'search.html', {'searched': searched, 'results': results, 'images': images})
+    else:
+        return render(request, 'search.html', {})
+
+
+@login_required()
+def reserveAd(request, id):
+    ad = get_object_or_404(Ad, pk=id)
+    if request.method == "POST":
+        ad.taken = True
+        user = get_object_or_404(User, pk=request.user.id)
+        customer = get_object_or_404(Customer, user=user)
+        ad.reserver = customer
+        ad.save()
+        messages.success(request, 'Zarezerwowano ogłoszenie!')
+        return redirect('profile')
+
+    return render(request, 'reserveAd.html', {'ad': ad})
+
+
+def cancelReservation(request, id):
+    ad = get_object_or_404(Ad, pk=id)
+    if request.method == "POST":
+        ad.taken = False
+        ad.reserver = None
+        ad.save()
+        messages.success(request, 'Zrezygnowano z rezerwacji ogłoszenia!')
+        return redirect('profile')
+
+    return render(request, 'cancelReservation.html', {'ad': ad})

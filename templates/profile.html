@@ -16,10 +16,27 @@
                         <div class="card-body">
                             <h5 class="card-title"
                                 style="border-bottom: lightblue solid 2px; font-weight: bold">{{ userAd.adName }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ userAd.publicationDate }}
-                                <br>Wygaśnie: {{ userAd.expirationDate }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Opublikowano: {{ userAd.publicationDate }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted" style="font-weight: bold">
+                                Wygaśnie: {{ userAd.expirationDate }}</h6>
                             <p class="card-text" style="text-align: justify;">{{ userAd.description }}</p>
                             <p class="card-text">Cena: {{ userAd.cost }}zł</p>
+                            {% if userAd.taken == True %}
+                                <p class="card-text"
+                                   style="font-weight: bolder; color: firebrick;">
+                                    Zarezerwowane:
+                                    Tak<br>Zarezerwował:
+                                    {{ userAd.reserver.name }} {{ userAd.reserver.surName }} {{ userAd.reserver.telNum }}
+                                    {{ userAd.reserver.user.email }}<br>Nazwa
+                                    użytkownika:<br>{{ userAd.reserver.user.username }}</p>
+                                <a href="{% url 'cancelReservation' userAd.pk %}" class="btn btn-danger"
+                                   style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;
+                                   margin-bottom: 1px; width: 325.625px">Anuluj rezerwację</a>
+                            {% endif %}
+                            {% if userAd.taken == False %}
+                                <p class="card-text" style="font-weight: bolder;">Zarezerwowane:
+                                    Nie</p>
+                            {% endif %}
                             <div class="btn-group" role="group">
                                 <a href="{% url 'editAd' userAd.pk %}" class="btn btn-warning"
                                    style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;">Edytuj</a>
@@ -48,14 +65,26 @@
                     </a>
                 {% endif %}
                 <h2 style="color: white; border-bottom: white solid">Twoje rezerwacje</h2>
-                <div class="card bg-light mb-3" style="">
-                    <div class="card-header">Header</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Primary card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
+                {% for reservedAd in reservedAds %}
+                    <div class="card bg-light mb-3">
+                        <div class="card-header" style="font-weight: bold">Ogłoszenie
+                            wygaśnie:<br>{{ reservedAd.expirationDate }}</div>
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-weight: bold">{{ reservedAd.adName }}</h5>
+                            <p class="card-text" style="font-weight: bold; color: grey">
+                                Właściciel:<br>{{ reservedAd.customer.name }} {{ reservedAd.customer.surName }}
+                                {{ reservedAd.customer.telNum }} {{ reservedAd.customer.user.email }}<br>Nazwa
+                                użytkownika:<br>{{ reservedAd.customer.user.username }}
+                            </p>
+                            <a href="{% url 'cancelReservation' reservedAd.pk %}" class="btn btn-danger"
+                               style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;
+                               margin-bottom: 1px; width: 190.15px">Anuluj&nbsp;rezerwację</a>
+                            <a href="{% url 'adDetails' reservedAd.pk %}" class="btn btn-info"
+                               style="color: white; font-weight: bold; -webkit-text-stroke: 0.1px black;">
+                                Przejdź&nbsp;do&nbsp;ogłoszenia</a>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="col-sm" style="background-color: lightblue; border-style: solid;
             border-bottom-right-radius: 15px; border-color: lightblue; border-top-right-radius: 15px;">

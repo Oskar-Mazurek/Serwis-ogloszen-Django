@@ -14,4 +14,7 @@ urlpatterns = [
                   path('editAd/<int:id>', views.editAd, name='editAd'),
                   path('deleteAd/<int:id>', views.deleteAd, name='deleteAd'),
                   path('adDetails/<int:id>', views.adDetails, name='adDetails'),
+                  path('search/', views.search, name='search'),
+                  path('reserveAd/<int:id>', views.reserveAd, name='reserveAd'),
+                  path('cancelReservation/<int:id>', views.cancelReservation, name='cancelReservation'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
