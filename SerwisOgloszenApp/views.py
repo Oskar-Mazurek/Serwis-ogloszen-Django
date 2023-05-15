@@ -163,7 +163,7 @@ def reserveAd(request, id):
         customer = get_object_or_404(Customer, user=user)
         ad.reserver = customer
         ad.save()
-        messages.success(request, 'Zarezerwowano ogłoszenie!')
+        messages.success(request, 'Zarezerwowano ogłoszenie, skontaktuj się z właścicielem ogłoszenia!')
         return redirect('profile')
 
     return render(request, 'reserveAd.html', {'ad': ad})
