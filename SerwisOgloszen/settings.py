@@ -29,8 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = TEMPLATE_DEBUG = True
+# DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ['*']
 
@@ -130,8 +130,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'SerwisOgloszenApp/static')
 STATICFILES_DIRS = ['SerwisOgloszenApp/static']
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'myMedia'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, "myMedia")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
