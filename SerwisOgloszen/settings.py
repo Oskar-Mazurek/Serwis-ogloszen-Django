@@ -18,6 +18,7 @@ import os
 import dj_database_url
 from django.contrib.messages import constants as messages
 from django.core.management.utils import get_random_secret_key
+from whitenoise import WhiteNoise
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'SerwisOgloszen.urls'
@@ -128,6 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'SerwisOgloszenApp/static')
 STATICFILES_DIRS = ['SerwisOgloszenApp/static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "myMedia")
