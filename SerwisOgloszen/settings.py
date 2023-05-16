@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from bootstrap4 import bootstrap
 import os
+import dj_database_url
 from django.contrib.messages import constants as messages
 from django.core.management.utils import get_random_secret_key
 
@@ -82,10 +83,12 @@ WSGI_APPLICATION = 'SerwisOgloszen.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    "default": dj_database_url.parse('postgres://serwisogloszendb_user:Dp72SwtxIOumRVDASTzXdsH19HMxRdaP@dpg'
+                                     '-chhrkp8rddl9a7007ijg-a.oregon-postgres.render.com/serwisogloszendb')
 }
 
 # Password validation
