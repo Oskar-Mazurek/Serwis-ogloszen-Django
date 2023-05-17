@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'SerwisOgloszen.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    "default": dj_database_url.parse('postgres://serwisogloszendb_user:Dp72SwtxIOumRVDASTzXdsH19HMxRdaP@dpg'
-                                     '-chhrkp8rddl9a7007ijg-a.oregon-postgres.render.com/serwisogloszendb')
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+    # "default": dj_database_url.parse('postgres://serwisogloszendb_user:Dp72SwtxIOumRVDASTzXdsH19HMxRdaP@dpg'
+    #                                  '-chhrkp8rddl9a7007ijg-a.oregon-postgres.render.com/serwisogloszendb')
 }
 
 # Password validation
@@ -129,12 +129,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'SerwisOgloszenApp/static')
-STATICFILES_DIRS = ['SerwisOgloszenApp/static']
+STATICFILES_DIRS = ['static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "myMedia")
-
+# MEDIA_ROOT = 'myMedia'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
