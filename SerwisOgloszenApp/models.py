@@ -38,7 +38,7 @@ class Ad(models.Model):
     publicationDate = models.DateTimeField()
     expirationDate = models.DateTimeField()
     taken = models.BooleanField(default=False)
-    reserver = models.OneToOneField(Customer, null=True, blank=True, on_delete=models.CASCADE, default="",
+    reserver = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE, default="",
                                     related_name='reserver')
 
     def __str__(self):

@@ -155,18 +155,19 @@ def search(request):
 
 
 @login_required()
-def reserveAd(request, id):
-    ad = get_object_or_404(Ad, pk=id)
+def reserveAd(request, adId):
     if request.method == "POST":
+        ad = get_object_or_404(Ad, pk=adId)
+        loggedUser = get_object_or_404(User, pk=request.user.id)
+        loggedcustomer = get_object_or_404(Customer, user=loggedUser)
+        ad.reserver = loggedcustomer
         ad.taken = True
-        user = get_object_or_404(User, pk=request.user.id)
-        customer = get_object_or_404(Customer, user=user)
-        ad.reserver = customer
         ad.save()
         messages.success(request, 'Zarezerwowano ogłoszenie, skontaktuj się z właścicielem ogłoszenia!')
         return redirect('profile')
-
-    return render(request, 'reserveAd.html', {'ad': ad})
+    else:
+        ad = get_object_or_404(Ad, pk=adId)
+        return render(request, 'reserveAd.html', {'ad': ad})
 
 
 def cancelReservation(request, id):
